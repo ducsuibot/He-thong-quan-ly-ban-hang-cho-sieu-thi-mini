@@ -5,7 +5,17 @@
 #define MAX_PRODUCTS 100
 #define MAX_CUSTOMERS 100
 #define MAX_SUPPLIERS 100
-#define MAX_BILLS 100
+#define MAX_BILLS 100 
+#define MAX_EMPLOYEES 100 
+typedef struct {
+    int ma;
+    char ten[50];
+    float luong;
+    char chucVu[50];
+    char soDienThoai[15];
+} NhanVien; 
+
+
 
 typedef struct {
     int ma;
@@ -48,7 +58,9 @@ NhaCungCap dsNhaCungCap[MAX_SUPPLIERS];
 int soLuongNhaCungCap = 0;
 
 HoaDon dsHoaDon[MAX_BILLS];
-int soLuongHoaDon = 0;
+int soLuongHoaDon = 0; 
+NhanVien dsNhanVien[MAX_EMPLOYEES];
+int soLuongNhanVien = 0; 
 
 void themSanPham();
 void suaSanPham();
@@ -58,19 +70,29 @@ void timSanPhamTheoTen();
 void sapXepSanPhamTheoGia();
 void sapXepSanPhamTheoTen();
 void luuSanPhamVaoTep();
-void taiSanPhamTuTep();
+void taiSanPhamTuTep(); 
+
 void luuKhachHangVaoTep();
 void taiKhachHangTuTep();
 void themKhachHang();
 void suaKhachHang();
 void xoaKhachHang();
-void timKhachHang();
+void timKhachHang();  
+
+void themNhanVien(); 
+void suaNhanVien();
+void xoaNhanVien();
+void timNhanVien();
+void luuNhanVienVaoTep(); 
+void taiNhanVienTuTep(); 
+
 void luuNhaCungCapVaoTep();
 void taiNhaCungCapTuTep();
 void themNhaCungCap();
 void suaNhaCungCap();
 void xoaNhaCungCap();
-void timNhaCungCap();
+void timNhaCungCap(); 
+
 void themHoaDon();
 void suaHoaDon();
 void xoaHoaDon();
@@ -322,7 +344,116 @@ void timKhachHang() {
     }
     printf("Khong tim thay khach hang voi ma da cho.\n");
 }
+  
+void themNhanVien() {
+    if (soLuongNhanVien >= MAX_EMPLOYEES) {
+        printf("Khong the them nhan vien moi. Danh sach da day.\n");
+        return;
+    }
+    NhanVien nv;
+    printf("Nhap ma nhan vien: ");
+    scanf("%d", &nv.ma);
+    printf("Nhap ten nhan vien: ");
+    getchar();
+    gets(nv.ten);
+    printf("Nhap luong nhan vien: ");
+    scanf("%f", &nv.luong);
+    printf("Nhap chuc vu nhan vien: ");
+    getchar();
+    gets(nv.chucVu);
+    printf("Nhap so dien thoai nhan vien: ");
+    gets(nv.soDienThoai);
+    dsNhanVien[soLuongNhanVien++] = nv;
+    printf("Them nhan vien thanh cong!\n");
+}
 
+void suaNhanVien() {
+    int ma, i;
+    printf("Nhap ma nhan vien can sua: ");
+    scanf("%d", &ma);
+    for (i = 0; i < soLuongNhanVien; i++) {
+        if (dsNhanVien[i].ma == ma) {
+            printf("Nhap ten nhan vien moi: ");
+            getchar();
+            gets(dsNhanVien[i].ten);
+            printf("Nhap luong nhan vien moi: ");
+            scanf("%f", &dsNhanVien[i].luong);
+            printf("Nhap chuc vu nhan vien moi: ");
+            getchar();
+            gets(dsNhanVien[i].chucVu);
+            printf("Nhap so dien thoai nhan vien moi: ");
+            gets(dsNhanVien[i].soDienThoai);
+            printf("Sua thong tin nhan vien thanh cong!\n");
+            return;
+        }
+    }
+    printf("Khong tim thay nhan vien voi ma da cho.\n");
+}
+
+void xoaNhanVien() {
+    int ma, i, j;
+    printf("Nhap ma nhan vien can xoa: ");
+    scanf("%d", &ma);
+    for (i = 0; i < soLuongNhanVien; i++) {
+        if (dsNhanVien[i].ma == ma) {
+            for (j = i; j < soLuongNhanVien - 1; j++) {
+                dsNhanVien[j] = dsNhanVien[j + 1];
+            }
+            soLuongNhanVien--;
+            printf("Xoa nhan vien thanh cong!\n");
+            return;
+        }
+    }
+    printf("Khong tim thay nhan vien voi ma da cho.\n");
+}
+
+void timNhanVien() {
+    int ma, i;
+    printf("Nhap ma nhan vien can tim: ");
+    scanf("%d", &ma);
+    for (i = 0; i < soLuongNhanVien; i++) {
+        if (dsNhanVien[i].ma == ma) {
+            printf("Nhan vien tim thay: Ma: %d, Ten: %s, Luong: %.2f, Chuc vu: %s, So dien thoai: %s\n",
+                   dsNhanVien[i].ma, dsNhanVien[i].ten, dsNhanVien[i].luong, dsNhanVien[i].chucVu, dsNhanVien[i].soDienThoai);
+            return;
+        }
+    }
+    printf("Khong tim thay nhan vien voi ma da cho.\n");
+}
+
+void luuNhanVienVaoTep() {
+    FILE *f = fopen("nhanvien.txt", "w");
+    if (f == NULL) {
+        printf("Khong the mo tep de ghi.\n");
+        return;
+    }
+    fprintf(f, "%d\n", soLuongNhanVien);
+    for (int i = 0; i < soLuongNhanVien; i++) {
+        fprintf(f, "%d\n%s\n%f\n%s\n%s\n", dsNhanVien[i].ma, dsNhanVien[i].ten, dsNhanVien[i].luong, dsNhanVien[i].chucVu, dsNhanVien[i].soDienThoai);
+    }
+    fclose(f);
+    printf("Da luu danh sach nhan vien vao tep nhanvien.txt.\n");
+}
+
+void taiNhanVienTuTep() {
+    FILE *f = fopen("nhanvien.txt", "r");
+    if (f == NULL) {
+        printf("Khong the mo tep de doc.\n");
+        return;
+    }
+    fscanf(f, "%d", &soLuongNhanVien);
+    for (int i = 0; i < soLuongNhanVien; i++) {
+        fscanf(f, "%d", &dsNhanVien[i].ma);
+        fscanf(f, "%s", dsNhanVien[i].ten);
+        fscanf(f, "%f", &dsNhanVien[i].luong);
+        fscanf(f, "%s", dsNhanVien[i].chucVu);
+        fscanf(f, "%s", dsNhanVien[i].soDienThoai);
+    }
+    fclose(f);
+    printf("Da tai danh sach nhan vien tu tep nhanvien.txt.\n");
+} 
+
+  
 void luuNhaCungCapVaoTep() {
     FILE *f = fopen("nhacungcap.txt", "w");
     if (f == NULL) {
@@ -513,11 +644,12 @@ void menuChinh() {
     do {
         printf("\n============= MENU =============\n");
         printf("1. Quan ly san pham\n");
-        printf("2. Quan ly khach hang\n");
-        printf("3. Quan ly nha cung cap\n");
-        printf("4. Lap hoa don\n");
-        printf("5. Tim kiem hoa don\n");
-        printf("6. Tinh tong doanh thu\n");
+        printf("2. Quan ly khach hang\n"); 
+        printf("3. Quan ly nhan vien\n");
+        printf("4. Quan ly nha cung cap\n");
+        printf("5. Lap hoa don\n");
+        printf("6. Tim kiem hoa don\n");
+        printf("7. Tinh tong doanh thu\n");
         printf("0. Thoat\n");
         printf("Lua chon cua ban: ");
         scanf("%d", &luaChon);
@@ -601,8 +733,45 @@ void menuChinh() {
                         printf("Lua chon khong hop le!\n");
                         break;
                 }
+                break; 
+            case 3: 
+            	printf("\n============= QUAN LY NHAN VIEN =============\n");
+        printf("1. Them nhan vien\n");
+        printf("2. Sua nhan vien\n");
+        printf("3. Xoa nhan vien\n");
+        printf("4. Tim nhan vien\n");
+        printf("5. Luu danh sach nhan vien vao tep\n");
+        printf("6. Tai danh sach nhan vien tu tep\n");
+        printf("0. Quay lai\n");
+        printf("Lua chon cua ban: ");
+        scanf("%d", &luaChon);
+        switch (luaChon) {
+            case 1:
+                themNhanVien();
+                break;
+            case 2:
+                suaNhanVien();
                 break;
             case 3:
+                xoaNhanVien();
+                break;
+            case 4:
+                timNhanVien();
+                break;
+            case 5:
+                luuNhanVienVaoTep();
+                break;
+            case 6:
+                taiNhanVienTuTep();
+                break;
+            case 0:
+                return;
+            default:
+                printf("Lua chon khong hop le!\n");
+                break;
+        }
+             
+            case 4:
                 printf("\n============= QUAN LY NHA CUNG CAP =============\n");
                 printf("1. Them nha cung cap\n");
                 printf("2. Sua nha cung cap\n");
@@ -636,15 +805,15 @@ void menuChinh() {
                         break;
                 }
                 break;
-            case 4:
+            case 5:
                 printf("\n============= LAP HOA DON =============\n");
                 themHoaDon();
                 break;
-            case 5:
+            case 6:
                 printf("\n============= TIM KIEM HOA DON =============\n");
                 timHoaDon();
                 break;
-            case 6:
+            case 7:
                 printf("\n============= TINH TONG DOANH THU =============\n");
                 tinhTongDoanhThu();
                 break;
