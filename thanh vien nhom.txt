@@ -1,4 +1,7 @@
-Nguyen Minh Duc    20233331 
-Dao viet Dung      20233342 
-Nguyen Tieng Bang  20233275  
-Dong Duc Anh       20233242
+ ================GROUP 1================= 
+ =====QUAN LY HE THONG SIEU THI MINI=====    
+
+ Nguyen Minh Duc    20233331 (leader)
+ Dao viet Dung      20233342 
+ Nguyen Tien Bang   20233275  
+ Dong Duc Anh       20233242
